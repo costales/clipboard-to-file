@@ -13,8 +13,8 @@ Copy a text or image into your clipboard.
 
 Then, go to your file browser and right click into:
 
- * Empty area / Paste into file: Will create or overwrite the file clipboard.txt or clipboard.png (depends clipboard content).
- * File / Paste into file: Will overwrite that file with the clipboard content.
+ * Empty area / Clipboard to file: Will create or overwrite the file clipboard.txt or clipboard.png (depends clipboard content).
+ * File / Clipboard to file: Will overwrite that file with the clipboard content.
  
 
 ## HOW DO I INSTALL?
