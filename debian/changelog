@@ -1,6 +1,6 @@
-clipboard-to-file (0.0.2) jammy; urgency=low
+clipboard-to-file (0.0.3) jammy; urgency=low
 
-  * Initial release
+  * Confirm overwrite file
 
- -- costales <costales.marcos@gmail.com>  Thu, 21 Oct 2022 17:06:31 +0000
+ -- costales <costales.marcos@gmail.com>  Thu, 21 Oct 2022 19:06:31 +0000
 

@@ -1,4 +1,4 @@
-# Clipboard to File 0.0.2
+# Clipboard to File 0.0.3
 # Copyright (C) 2022 Marcos Alvarez Costales https://costales.github.io/about/
 #
 # Clipboard to File is free software; you can redistribute it and/or modify
@@ -93,22 +93,43 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         response = dialog.run()
         dialog.destroy()
 
+    def _ask_overwrite(self):
+        dialog = Gtk.MessageDialog(
+            message_type=Gtk.MessageType.WARNING,
+            buttons=Gtk.ButtonsType.OK_CANCEL,
+            text=_("File exists. Overwrite?")
+        )
+        response = dialog.run()
+        dialog.destroy()
+        if response == Gtk.ResponseType.OK:
+            return True
+        else:
+            return False
+
+
     def _menu_activate_paste(self, menu, from_menu, file_name):
         """Menu: Clipboard to File clicked"""
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         text = clipboard.wait_for_text()
+
+        # Text
         if text is not None:
             # Compose file
             filename = self._compose_filename(from_menu, "text", file_name)
             if from_menu == "file" and not mimetypes.guess_type(file_name)[0] == 'text/plain':
                 self._popup(_("It isn't a text file"))
             else:
-                try:
-                    with open(filename, "w") as f:
-                        f.write(text)
-                except Exception as e:
-                    self._popup(str(e))
-            
+                overwrite = True
+                if os.path.isfile(filename):
+                    overwrite = self._ask_overwrite()
+                if overwrite:
+                    try:
+                        with open(filename, "w") as f:
+                            f.write(text)
+                    except Exception as e:
+                        self._popup(str(e))
+        
+        # Image
         else:
             image = clipboard.wait_for_image()
             if image is not None:
@@ -117,7 +138,11 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
                 if from_menu == "file" and not mimetypes.guess_type(file_name)[0] == 'image/png':
                     self._popup(_("It isn't a PNG file"))
                 else:
-                    try:
-                        image.savev(filename, "png", ["quality"], ["100"])
-                    except Exception as e:
-                        self._popup(str(e))
+                    overwrite = True
+                    if os.path.isfile(filename):
+                        overwrite = self._ask_overwrite()
+                    if overwrite:
+                        try:
+                            image.savev(filename, "png", ["quality"], ["100"])
+                        except Exception as e:
+                            self._popup(str(e))

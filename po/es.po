@@ -22,10 +22,14 @@ msgstr ""
 msgid "Clipboard to File"
 msgstr "Portapapeles a fichero"
 
-#: nautilus-extension/clipboard-to-file.py:104
+#: nautilus-extension/clipboard-to-file.py:100
+msgid "File exists. Overwrite?"
+msgstr "Fichero existe. ¿Sobreescribir?"
+
+#: nautilus-extension/clipboard-to-file.py:120
 msgid "It isn't a text file"
 msgstr "No es un fichero de texto"
 
-#: nautilus-extension/clipboard-to-file.py:118
+#: nautilus-extension/clipboard-to-file.py:138
 msgid "It isn't a PNG file"
 msgstr "No es un fichero PNG"
