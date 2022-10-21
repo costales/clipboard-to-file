@@ -22,25 +22,25 @@ Then, go to your file browser and right click into:
 Nautilus:
 
 ```
-$ sudo add-apt-repository ppa:costales/clipboard-to-file
-$ sudo apt-get install clipboard-to-file
-$ nautilus -q
+sudo add-apt-repository ppa:costales/clipboard-to-file
+sudo apt-get install clipboard-to-file
+nautilus -q
 ```
 
 Nemo:
 
 ```
-$ sudo add-apt-repository ppa:costales/clipboard-to-file
-$ sudo apt-get install clipboard-to-file-nemo
-$ nemo -q
+sudo add-apt-repository ppa:costales/clipboard-to-file
+sudo apt-get install clipboard-to-file-nemo
+nemo -q
 ```
 
 Caja:
 
 ```
-$ sudo add-apt-repository ppa:costales/clipboard-to-file
-$ sudo apt-get install clipboard-to-file-caja
-$ caja -q
+sudo add-apt-repository ppa:costales/clipboard-to-file
+sudo apt-get install clipboard-to-file-caja
+caja -q
 ```
 
 
