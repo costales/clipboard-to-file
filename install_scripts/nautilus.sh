@@ -2,7 +2,7 @@
 rm ../README
 
 # po
-sed -i 's/clipboard2file/clipboard-to-file/' ../nemo-extension/clipboard-to-file.py
+sed -i 's/clipboard2file/clipboard-to-file/' ../nautilus-extension/clipboard-to-file.py
 sed -i 's/clipboard2file/clipboard-to-file/' ../po/POTFILES.in
 sed -i 's/folder_path/nautilus-extension/' ../po/POTFILES.in
 
