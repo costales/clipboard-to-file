@@ -3,7 +3,7 @@
 # setup
 sed -i 's/nautilus-python/caja-python/' ../setup.py
 sed -i 's/nautilus-extension/caja-extension/' ../setup.py
-sed -i 's/clipboard-to-file/clipboard-to-file-caja/g' ../setup.py
+sed -i 's/"clipboard-to-file"/"clipboard-to-file-caja"/' ../setup.py
 
 # extension
 mv ../nautilus-extension/ ../caja-extension

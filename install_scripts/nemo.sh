@@ -3,7 +3,7 @@
 # setup
 sed -i 's/nautilus-python/nemo-python/' ../setup.py
 sed -i 's/nautilus-extension/nemo-extension/' ../setup.py
-sed -i 's/clipboard-to-file/clipboard-to-file-nemo/g' ../setup.py
+sed -i 's/"clipboard-to-file"/"clipboard-to-file-nemo"/' ../setup.py
 
 # extension
 mv ../nautilus-extension/ ../nemo-extension
