@@ -10,6 +10,8 @@ Paste Linux clipboard (text/image) into a file.
 
 ## HOW DOES IT WORK?
 
+If the file exists, it will ask for overwriting.
+
 ### TEXT
 
 Copy a text into your clipboard.
