@@ -28,6 +28,10 @@ Go to your file browser and do a right click:
  * Into empty area / "Clipboard to file" menu: Will create/overwrite the file clipboard.png.
  * Into file / "Clipboard to file" menu: Will overwrite that file content with the clipboard image.
 
+## REQUERIMENTS
+
+Ubuntu 20.04 or 22.04.
+
 ## HOW TO INSTALL?
 
 ### Nautilus
