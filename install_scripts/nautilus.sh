@@ -1,5 +1,5 @@
 #!/bin/bash
-rm ../README
+rm ../README.md
 
 # po
 sed -i 's/clipboard2file/clipboard-to-file/' ../nautilus-extension/clipboard-to-file.py

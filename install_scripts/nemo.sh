@@ -1,4 +1,5 @@
 #!/bin/bash
+rm ../README.md
 
 # setup
 sed -i 's/nautilus-python/nemo-python/' ../setup.py
