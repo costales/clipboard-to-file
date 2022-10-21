@@ -1,0 +1,42 @@
+Clipboard to File © 2022 Marcos Alvarez Costales
+================================================
+
+WHAT IS IT?
+===========
+Paste clipboard (text/image) into a file.
+
+Available for Nautilus, Nemo & Caja file browsers.
+
+
+
+HOW DO I INSTALL & RUN IT?
+==========================
+
+Nautilus:
+
+```
+# add-apt-repository ppa:costales/clipboard-to-file
+# sudo apt-get install clipboard-to-file
+```
+
+Nemo:
+
+```
+# add-apt-repository ppa:costales/clipboard-to-file
+# sudo apt-get install clipboard-to-file-nemo
+```
+
+Caja:
+
+```
+# add-apt-repository ppa:costales/clipboard-to-file
+# sudo apt-get install clipboard-to-file-caja
+```
+
+
+
+
+LICENSES
+====================
+Clipboard to File code is licensed under the GPL v3.
+http://www.gnu.org/licenses

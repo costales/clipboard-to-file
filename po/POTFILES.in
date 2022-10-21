@@ -1,0 +1,5 @@
+# intltool-update -p -g clipboard2file
+# also done automatically with setup.py build or install
+[encoding: UTF-8]
+folder_path/clipboard-to-file.py
+
