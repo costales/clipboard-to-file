@@ -3,7 +3,7 @@ Clipboard to File
 
 ## WHAT IS IT?
 
-Paste clipboard (text/image) into a file.
+Paste Linux clipboard (text/image) into a file.
 
 ![logo](https://user-images.githubusercontent.com/5886786/197257960-3ec9192e-cd53-4494-99ef-1ce1758eafa3.png)
 
