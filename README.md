@@ -44,6 +44,9 @@ sudo apt-get install clipboard-to-file-caja
 caja -q
 ```
 
+## TRANSLATIONS
+
+https://translations.launchpad.net/clipboard-to-file/trunk
 
 ## LICENSES
 
