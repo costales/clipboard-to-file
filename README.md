@@ -10,13 +10,23 @@ Paste clipboard (text/image) into a file.
 
 ## HOW DOES IT WORK?
 
-Copy a text or image into your clipboard.
+### TEXT
+
+Copy a text into your clipboard.
 
 Go to your file browser and do a right click:
 
- * Into empty area / "Clipboard to file" menu: Will create/overwrite the file clipboard.txt or clipboard.png (depends of the clipboard content).
- * Into file / "Clipboard to file" menu: Will overwrite that file with the clipboard content (text or image, depends of the clipboard content.
+ * Into empty area / "Clipboard to file" menu: Will create/overwrite the file clipboard.txt.
+ * Into file / "Clipboard to file" menu: Will overwrite that file content with the clipboard text.
  
+### IMAGE
+
+Copy an image into your clipboard.
+
+Go to your file browser and do a right click:
+
+ * Into empty area / "Clipboard to file" menu: Will create/overwrite the file clipboard.png.
+ * Into file / "Clipboard to file" menu: Will overwrite that file content with the clipboard image.
 
 ## HOW TO INSTALL?
 
