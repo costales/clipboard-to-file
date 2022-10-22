@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: clipboard-to-file\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-08-12 17:21+0200\n"
-"PO-Revision-Date: 2017-08-12 15:32+0000\n"
+"POT-Creation-Date: 2022-10-22 09:36+0200\n"
+"PO-Revision-Date: 2022-10-22 07:55+0000\n"
 "Last-Translator: costales <Unknown>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2022-10-15 09:24+0000\n"
-"X-Generator: Launchpad (build 25877e98ba44ca75f9c22db1fc37efee03e4606a)\n"
+"X-Launchpad-Export-Date: 2022-10-22 08:00+0000\n"
+"X-Generator: Launchpad (build 083267bcef06a439af1c3ee2507b2333659521d4)\n"
 
 #: nautilus-extension/clipboard-to-file.py:55
 #: nautilus-extension/clipboard-to-file.py:62
@@ -23,13 +23,25 @@ msgid "Clipboard to File"
 msgstr "Portapapeles a ficheru"
 
 #: nautilus-extension/clipboard-to-file.py:100
-msgid "File exists. Overwrite?"
-msgstr "Ficheru esiste. ¿Sobreescribir?"
+#, python-format
+msgid "File %s exists. Overwrite?"
+msgstr "Esiste'l ficheru %s. ¿Sobreescribilu?"
 
 #: nautilus-extension/clipboard-to-file.py:120
-msgid "It isn't a text file"
-msgstr "Nun ye un ficheru de testu"
+#, python-format
+msgid "%s isn't a text file"
+msgstr "%s nun ye un ficheru de testu"
 
-#: nautilus-extension/clipboard-to-file.py:138
-msgid "It isn't a PNG file"
-msgstr "Nun ye un ficheru PNG"
+#: nautilus-extension/clipboard-to-file.py:139
+#, python-format
+msgid "%s isn't a PNG file"
+msgstr "%s nun ye un ficheru PNG"
+
+#~ msgid "It isn't a text file"
+#~ msgstr "Nun ye un ficheru de testu"
+
+#~ msgid "It isn't a PNG file"
+#~ msgstr "Nun ye un ficheru PNG"
+
+#~ msgid "File exists. Overwrite?"
+#~ msgstr "Ficheru esiste. ¿Sobreescribir?"
