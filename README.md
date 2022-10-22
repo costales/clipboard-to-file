@@ -38,6 +38,7 @@ Ubuntu 20.04 or 22.04.
 
 ```
 sudo add-apt-repository ppa:costales/clipboard-to-file
+sudo apt-get update
 sudo apt-get install clipboard-to-file
 nautilus -q
 ```
@@ -46,6 +47,7 @@ nautilus -q
 
 ```
 sudo add-apt-repository ppa:costales/clipboard-to-file
+sudo apt-get update
 sudo apt-get install clipboard-to-file-nemo
 nemo -q
 ```
@@ -54,6 +56,7 @@ nemo -q
 
 ```
 sudo add-apt-repository ppa:costales/clipboard-to-file
+sudo apt-get update
 sudo apt-get install clipboard-to-file-caja
 caja -q
 ```
