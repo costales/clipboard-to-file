@@ -10,16 +10,14 @@ Paste Linux clipboard (text/image) into a file.
 
 ## HOW DOES IT WORK?
 
-If the file exists, it will ask for overwriting.
-
 ### TEXT
 
 Copy a text into your clipboard.
 
 Go to your file browser and do a right click:
 
- * Into empty area / "Clipboard to file" menu: Will create/overwrite the file clipboard.txt.
- * Into file / "Clipboard to file" menu: Will overwrite that file content with the clipboard text.
+ * Into empty area / "Clipboard to file" menu: Will create the file clipboard-X.txt.
+ * Into file / "Clipboard to file" menu: Will ask to overwrite that file content with the clipboard text.
  
 ### IMAGE
 
@@ -27,8 +25,8 @@ Copy an image into your clipboard.
 
 Go to your file browser and do a right click:
 
- * Into empty area / "Clipboard to file" menu: Will create/overwrite the file clipboard.png.
- * Into file / "Clipboard to file" menu: Will overwrite that file content with the clipboard image.
+ * Into empty area / "Clipboard to file" menu: Will create the file clipboard-X.png.
+ * Into file / "Clipboard to file" menu: Will ask to overwrite that file content with the clipboard image.
 
 ## REQUERIMENTS
 
