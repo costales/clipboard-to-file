@@ -1,6 +1,6 @@
-clipboard-to-file (0.0.3) jammy; urgency=low
+clipboard-to-file (0.0.4) jammy; urgency=low
 
-  * Confirm overwrite file
+  * Say filename to overwrite
 
  -- costales <costales.marcos@gmail.com>  Thu, 21 Oct 2022 19:06:31 +0000
 

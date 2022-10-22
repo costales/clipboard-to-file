@@ -1,4 +1,4 @@
-# Clipboard to File 0.0.3
+# Clipboard to File 0.0.4
 # Copyright (C) 2022 Marcos Alvarez Costales https://costales.github.io/about/
 #
 # Clipboard to File is free software; you can redistribute it and/or modify
@@ -93,15 +93,15 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         response = dialog.run()
         dialog.destroy()
 
-    def _ask_overwrite(self):
+    def _ask_overwrite(self, file_name):
         dialog = Gtk.MessageDialog(
             message_type=Gtk.MessageType.WARNING,
-            buttons=Gtk.ButtonsType.OK_CANCEL,
-            text=_("File exists. Overwrite?")
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=_("File %s exists. Overwrite?") % (file_name)
         )
         response = dialog.run()
         dialog.destroy()
-        if response == Gtk.ResponseType.OK:
+        if response == Gtk.ResponseType.YES:
             return True
         else:
             return False
@@ -117,11 +117,11 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
             # Compose file
             filename = self._compose_filename(from_menu, "text", file_name)
             if from_menu == "file" and not mimetypes.guess_type(file_name)[0] == 'text/plain':
-                self._popup(_("It isn't a text file"))
+                self._popup(_("%s isn't a text file") % (os.path.basename(filename)))
             else:
                 overwrite = True
                 if os.path.isfile(filename):
-                    overwrite = self._ask_overwrite()
+                    overwrite = self._ask_overwrite(os.path.basename(filename))
                 if overwrite:
                     try:
                         with open(filename, "w") as f:
@@ -136,11 +136,11 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
                 # Compose file
                 filename = self._compose_filename(from_menu, "image", file_name)
                 if from_menu == "file" and not mimetypes.guess_type(file_name)[0] == 'image/png':
-                    self._popup(_("It isn't a PNG file"))
+                    self._popup(_("%s isn't a PNG file") % (os.path.basename(filename)))
                 else:
                     overwrite = True
                     if os.path.isfile(filename):
-                        overwrite = self._ask_overwrite()
+                        overwrite = self._ask_overwrite(os.path.basename(filename))
                     if overwrite:
                         try:
                             image.savev(filename, "png", ["quality"], ["100"])
