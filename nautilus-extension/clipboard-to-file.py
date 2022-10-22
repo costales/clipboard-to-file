@@ -1,4 +1,4 @@
-# Clipboard to File 0.0.4
+# Clipboard to File 0.0.5
 # Copyright (C) 2022 Marcos Alvarez Costales https://costales.github.io/about/
 #
 # Clipboard to File is free software; you can redistribute it and/or modify
@@ -66,23 +66,20 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
     def _compose_filename(self, from_menu, clipboard_type, file_name):
         """Compose the filename"""
         if from_menu == "file":
-            if clipboard_type == "text":
-                if file_name[-4:].lower() == ".txt":
-                    return file_name
-                else:
-                    return "error"
-
-            if clipboard_type == "image":
-                if file_name[-4:].lower() == ".png":
-                    return file_name
-                else:
-                    return "error"
+            return file_name
         
         if from_menu == "empty":
             if clipboard_type == "text":
-                return file_name + "/clipboard.txt"
+                extension = ".txt"
             if clipboard_type == "image":
-                return file_name + "/clipboard.png"
+                extension = ".png"
+            
+            # Incremental filename
+            i = 1
+            while os.path.exists((file_name + "/clipboard-%s" + extension) % i):
+                i += 1
+
+            return (file_name + "/clipboard-%s" + extension) % i
 
     def _popup(self, msg):
         dialog = Gtk.MessageDialog(
