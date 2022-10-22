@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-21 22:20+0200\n"
+"POT-Creation-Date: 2022-10-22 09:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,13 +23,16 @@ msgid "Clipboard to File"
 msgstr ""
 
 #: nautilus-extension/clipboard-to-file.py:100
-msgid "File exists. Overwrite?"
+#, python-format
+msgid "File %s exists. Overwrite?"
 msgstr ""
 
 #: nautilus-extension/clipboard-to-file.py:120
-msgid "It isn't a text file"
+#, python-format
+msgid "%s isn't a text file"
 msgstr ""
 
-#: nautilus-extension/clipboard-to-file.py:138
-msgid "It isn't a PNG file"
+#: nautilus-extension/clipboard-to-file.py:139
+#, python-format
+msgid "%s isn't a PNG file"
 msgstr ""
