@@ -28,6 +28,9 @@ Go to your file browser and do a right click:
  * Into empty area / "Clipboard to file" menu: Will create the file clipboard-X.png.
  * Into file / "Clipboard to file" menu: Will ask to overwrite that file content with the clipboard image.
 
+![image](https://user-images.githubusercontent.com/5886786/197329936-f365c30b-e6c3-42a8-9106-bc0f94aacb09.png)
+
+
 ## REQUERIMENTS
 
 Ubuntu 20.04 or 22.04.
