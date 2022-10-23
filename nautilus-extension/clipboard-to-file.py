@@ -76,7 +76,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
             
             # Incremental filename
             i = 1
-            while os.path.exists((file_name + "/clipboard-%s" + extension) % i):
+            while os.path.exists((file_name + "/clipboard-%s.txt") % i) or os.path.exists((file_name + "/clipboard-%s.png") % i):
                 i += 1
 
             return (file_name + "/clipboard-%s" + extension) % i
