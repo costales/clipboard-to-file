@@ -23,7 +23,7 @@ sed -i 's/Upstream-Name: clipboard-to-file/Upstream-Name: clipboard-to-file-caja
 
 sed -i 's/Source: clipboard-to-file/Source: clipboard-to-file-caja/' ../debian/control
 sed -i 's/Package: clipboard-to-file/Package: clipboard-to-file-caja/' ../debian/control
-sed -i 's/python3-nautilus, nautilus, /python-caja, caja, /' ../debian/control
+sed -i 's/python3-nautilus, nautilus, /python3-caja, caja, /' ../debian/control
 
 sed -i 's/clipboard-to-file/clipboard-to-file-caja/' ../debian/changelog
 
