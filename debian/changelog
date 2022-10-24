@@ -1,6 +1,6 @@
-clipboard-to-file (0.0.5) jammy; urgency=low
+clipboard-to-file (0.0.6) jammy; urgency=low
 
-  * Say filename to overwrite
+  * i18n filename
 
- -- costales <costales.marcos@gmail.com>  Thu, 21 Oct 2022 19:06:31 +0000
+ -- costales <costales.marcos@gmail.com>  Thu, 24 Oct 2022 17:56:31 +0000
 

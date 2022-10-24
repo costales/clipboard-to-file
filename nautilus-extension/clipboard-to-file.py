@@ -1,4 +1,4 @@
-# Clipboard to File 0.0.5
+# Clipboard to File 0.0.6
 # Copyright (C) 2022 Marcos Alvarez Costales https://costales.github.io/about/
 #
 # Clipboard to File is free software; you can redistribute it and/or modify
@@ -76,10 +76,11 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
             
             # Incremental filename
             i = 1
-            while os.path.exists((file_name + "/clipboard-%s.txt") % i) or os.path.exists((file_name + "/clipboard-%s.png") % i):
+            i18n_filename = _("Clipboard")
+            while os.path.exists((file_name + "/" + i18n_filename + "-%s.txt") % i) or os.path.exists((file_name + "/" + i18n_filename + "-%s.png") % i):
                 i += 1
 
-            return (file_name + "/clipboard-%s" + extension) % i
+            return (file_name + "/" + i18n_filename + "-%s" + extension) % i
 
     def _popup(self, msg):
         dialog = Gtk.MessageDialog(
@@ -107,10 +108,12 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
     def _menu_activate_paste(self, menu, from_menu, file_name):
         """Menu: Clipboard to File clicked"""
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
-        text = clipboard.wait_for_text()
+        clipboard_has_content = False
 
         # Text
+        text = clipboard.wait_for_text()
         if text is not None:
+            clipboard_has_content = True
             # Compose file
             filename = self._compose_filename(from_menu, "text", file_name)
             if from_menu == "file" and not mimetypes.guess_type(file_name)[0] == 'text/plain':
@@ -130,6 +133,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         else:
             image = clipboard.wait_for_image()
             if image is not None:
+                clipboard_has_content = True
                 # Compose file
                 filename = self._compose_filename(from_menu, "image", file_name)
                 if from_menu == "file" and not mimetypes.guess_type(file_name)[0] == 'image/png':
@@ -143,3 +147,8 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
                             image.savev(filename, "png", ["quality"], ["100"])
                         except Exception as e:
                             self._popup(str(e))
+                            
+        # Nothing
+        if not clipboard_has_content:
+            self._popup(_("Clipboard hasn't content"))
+            
