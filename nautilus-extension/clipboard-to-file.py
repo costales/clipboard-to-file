@@ -38,9 +38,6 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
     def get_file_items(self, window, items):
         """Create menu when click on a file"""
         # Checks
-        if items[0].is_gone():
-            return False
-        
         if len(items) != 1:
             return False
         
