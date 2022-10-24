@@ -1,43 +1,46 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-24 17:43+0200\n"
+"POT-Creation-Date: 2022-10-24 20:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2022-10-24 15:48+0000\n"
-"X-Generator: Launchpad (build 083267bcef06a439af1c3ee2507b2333659521d4)\n"
 "Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
 
-#: nautilus-extension/clipboard-to-file.py:55
-#: nautilus-extension/clipboard-to-file.py:62
+#: nautilus-extension/clipboard-to-file.py:52
+#: nautilus-extension/clipboard-to-file.py:59
 msgid "Clipboard to File"
 msgstr ""
 
-#: nautilus-extension/clipboard-to-file.py:79
+#: nautilus-extension/clipboard-to-file.py:76
 msgid "Clipboard"
 msgstr ""
 
-#: nautilus-extension/clipboard-to-file.py:98
+#: nautilus-extension/clipboard-to-file.py:95
 #, python-format
 msgid "File %s exists. Overwrite?"
 msgstr ""
 
-#: nautilus-extension/clipboard-to-file.py:120
+#: nautilus-extension/clipboard-to-file.py:117
 #, python-format
 msgid "%s isn't a text file"
 msgstr ""
 
-#: nautilus-extension/clipboard-to-file.py:140
+#: nautilus-extension/clipboard-to-file.py:137
 #, python-format
 msgid "%s isn't a PNG file"
 msgstr ""
 
-#: nautilus-extension/clipboard-to-file.py:152
-msgid "Clipboard hasn't content"
+#: nautilus-extension/clipboard-to-file.py:150
+msgid "The clipboard does not have content"
 msgstr ""

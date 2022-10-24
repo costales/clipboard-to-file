@@ -1,4 +1,4 @@
-# Clipboard to File 0.0.6
+# Clipboard to File 0.0.7
 # Copyright (C) 2022 Marcos Alvarez Costales https://costales.github.io/about/
 #
 # Clipboard to File is free software; you can redistribute it and/or modify
@@ -147,5 +147,5 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
                             
         # Nothing
         if not clipboard_has_content:
-            self._popup(_("Clipboard hasn't content"))
+            self._popup(_("The clipboard does not have content"))
             
