@@ -10,6 +10,7 @@ sed -i 's/"clipboard-to-file"/"clipboard-to-file-nemo"/' ../setup.py
 mv ../nautilus-extension/ ../nemo-extension
 sed -i 's/nautilus/nemo/g' ../nemo-extension/clipboard-to-file.py
 sed -i 's/Nautilus/Nemo/g' ../nemo-extension/clipboard-to-file.py
+sed -i '/print(/d' ../nemo-extension/clipboard-to-file.py
 
 # po
 sed -i 's/clipboard2file/clipboard-to-file-nemo/' ../nemo-extension/clipboard-to-file.py

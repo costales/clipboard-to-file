@@ -57,6 +57,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         self.item = file_name
 
         # Menu
+        print("Click on file", self.from_clicked_file, self.item)
         menu_item = Nautilus.MenuItem(name="clipboard-to-file", label=_("Clipboard to File"))
         menu_item.connect("activate", self._menu_activate_paste)
         return menu_item,
@@ -66,6 +67,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         if not self.from_clicked_file:
             self.item = directory.get_uri()[7:]
         
+        print("Click empty area", self.from_clicked_file, self.item)
         menu_item = Nautilus.MenuItem(name="clipboard-to-file", label=_("Clipboard to File"))
         menu_item.connect("activate", self._menu_activate_paste)
         return menu_item,
@@ -75,12 +77,14 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard_has_content = False
 
+        print("Enter menu", self.from_clicked_file, self.item)
         # Text
         text = clipboard.wait_for_text()
         if text is not None:
             clipboard_has_content = True
             # Compose file
             filename = self._compose_filename("txt")
+            print("File: ", filename)
             if self.from_clicked_file and not mimetypes.guess_type(filename)[0] == 'text/plain':
                 self._popup(_("%s isn't a text file") % (os.path.basename(filename)))
             else:
@@ -101,6 +105,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
                 clipboard_has_content = True
                 # Compose file
                 filename = self._compose_filename("png")
+                print("File: ", filename)
                 if self.from_clicked_file and not mimetypes.guess_type(filename)[0] == 'image/png':
                     self._popup(_("%s isn't a PNG file") % (os.path.basename(filename)))
                 else:
