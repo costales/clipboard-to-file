@@ -48,7 +48,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
             return False
 
         # Menu
-        menu_item = Nautilus.MenuItem(name="click_file", label=_("Clipboard to File"+file_name))
+        menu_item = Nautilus.MenuItem(name="click_file", label=_("Clipboard to File"))
         menu_item.connect("activate", self.menu_file, file_name)
         return menu_item,
 
@@ -56,7 +56,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         """Click on directory"""
         dir = directory.get_uri()[7:]
         
-        menu_item = Nautilus.MenuItem(name="click_dir", label=_("Clipboard to File"+dir))
+        menu_item = Nautilus.MenuItem(name="click_dir", label=_("Clipboard to File"))
         menu_item.connect("activate", self.menu_dir, dir)
         return menu_item,
 
