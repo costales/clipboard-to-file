@@ -1,4 +1,4 @@
-# Clipboard to File 0.0.7
+# Clipboard to File 0.0.8
 # Copyright (C) 2022 Marcos Alvarez Costales https://costales.github.io/about/
 #
 # Clipboard to File is free software; you can redistribute it and/or modify
