@@ -40,6 +40,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
 
     def get_background_items(self, window, directory):
         """Every time changes the directory"""
+        print("Changed directory", self.clicked_file, self.dir, self.file)
         if self.menu_activated:
             self.menu_activated = False
             menu_item = Nautilus.MenuItem(name="clipboard-to-file", label=_("Clipboard to File"))
@@ -51,7 +52,6 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
             self.file = ""
             self.clicked_file = False
         
-        print("Changed directory", self.clicked_file, self.dir, self.file)
         menu_item = Nautilus.MenuItem(name="clipboard-to-file", label=_("Clipboard to File"))
         menu_item.connect("activate", self._menu_activate_paste)
         return menu_item,
@@ -69,13 +69,13 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         if file_name[-4:].lower() != ".txt" and file_name[-4:].lower() != ".png":
             return False
 
+        print("Click on file", self.clicked_file, self.dir, self.file)
         # Values for event trigger
         self.file = file_name
         self.clicked_file = True
         self.menu_activated = True
 
         # Menu
-        print("Click on file", self.clicked_file, self.dir, self.file)
         menu_item = Nautilus.MenuItem(name="clipboard-to-file", label=_("Clipboard to File"))
         menu_item.connect("activate", self._menu_activate_paste)
         return menu_item,
