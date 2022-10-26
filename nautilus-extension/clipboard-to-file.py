@@ -33,31 +33,9 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
     """File Browser Menu"""
     def __init__(self):
         GObject.Object.__init__(self)
-        self.dir = ""
-        self.file = ""
-        self.clicked_file = False
-        self.menu_activated = False
-
-    def get_background_items(self, window, directory):
-        """Every time changes the directory"""
-        print("Changed directory", self.clicked_file, self.dir, self.file)
-        if self.menu_activated:
-            self.menu_activated = False
-            menu_item = Nautilus.MenuItem(name="clipboard-to-file", label=_("Clipboard to File"))
-            menu_item.connect("activate", self._menu_activate_paste)
-            return menu_item,
-            
-        if self.dir != directory.get_uri()[7:]:
-            self.dir = directory.get_uri()[7:]
-            self.file = ""
-            self.clicked_file = False
-        
-        menu_item = Nautilus.MenuItem(name="clipboard-to-file", label=_("Clipboard to File"))
-        menu_item.connect("activate", self._menu_activate_paste)
-        return menu_item,
 
     def get_file_items(self, window, items):
-        """Every time clicks on a file"""
+        """Click on a file"""
         # Checks
         if len(items) != 1:
             return False
@@ -69,83 +47,85 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         if file_name[-4:].lower() != ".txt" and file_name[-4:].lower() != ".png":
             return False
 
-        print("Click on file", self.clicked_file, self.dir, self.file)
-        # Values for event trigger
-        self.file = file_name
-        self.clicked_file = True
-        self.menu_activated = True
-
         # Menu
-        menu_item = Nautilus.MenuItem(name="clipboard-to-file", label=_("Clipboard to File"))
-        menu_item.connect("activate", self._menu_activate_paste)
+        menu_item = Nautilus.MenuItem(name="click_file", label=_("Clipboard to File"+file_name))
+        menu_item.connect("activate", self.menu_file, file_name)
         return menu_item,
 
-    def _menu_activate_paste(self, menu):
+    def get_background_items(self, window, directory):
+        """Click on directory"""
+        dir = directory.get_uri()[7:]
+        
+        menu_item = Nautilus.MenuItem(name="click_dir", label=_("Clipboard to File"+dir))
+        menu_item.connect("activate", self.menu_dir, dir)
+        return menu_item,
+
+    def menu_file(self, menu, filename):
+        self.clipboard(True, filename)
+
+    def menu_dir(self, menu, dir):
+        self.clipboard(False, dir)
+
+    def clipboard(self, is_file, filename):
         """Clicked menu"""
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard_has_content = False
 
-        print("Menu activated", self.clicked_file, self.dir, self.file)
         # Text
         text = clipboard.wait_for_text()
         if text is not None:
-            clipboard_has_content = True
-            # Compose file
-            filename = self._compose_filename("txt")
-            print("File:", filename)
-            if self.clicked_file and not mimetypes.guess_type(filename)[0] == 'text/plain':
-                self._popup(_("%s isn't a text file") % (os.path.basename(filename)))
-            else:
-                overwrite = Gtk.ResponseType.YES
-                if os.path.isfile(filename):
-                    overwrite = self._ask_overwrite(os.path.basename(filename))
-                if overwrite == Gtk.ResponseType.YES:
-                    try:
-                        with open(filename, "w") as f:
-                            f.write(text)
-                    except Exception as e:
-                        self._popup(str(e))
-        
+            clipboard_has_content = self.save("text/plain", is_file, filename, text)
         # Image
         else:
             image = clipboard.wait_for_image()
             if image is not None:
-                clipboard_has_content = True
-                # Compose file
-                filename = self._compose_filename("png")
-                print("File:", filename)
-                if self.clicked_file and not mimetypes.guess_type(filename)[0] == 'image/png':
-                    self._popup(_("%s isn't a PNG file") % (os.path.basename(filename)))
-                else:
-                    overwrite = Gtk.ResponseType.YES
-                    if os.path.isfile(filename):
-                        overwrite = self._ask_overwrite(os.path.basename(filename))
-                    if overwrite == Gtk.ResponseType.YES:
-                        try:
-                            image.savev(filename, "png", ["quality"], ["100"])
-                        except Exception as e:
-                            self._popup(str(e))
-                            
-        self.dir = ""
-
+                clipboard_has_content = self.save("image/png", is_file, filename, image)
         # Nothing
         if not clipboard_has_content:
-            self._popup(_("The clipboard does not have content"))
+            self.show_error(_("The clipboard does not have content"))
             
-    def _compose_filename(self, extension):
+    def save(self, mimetype, is_file, filename, content):
+        file = self.compose_filename(mimetype, is_file, filename)
+
+        if mimetypes.guess_type(file)[0] != mimetype:
+            self.show_error(_("%(filename)s isn't a %(mimetype)s file") % ({'filename': os.path.basename(file), 'mimetype': mimetype}))
+        else:
+            overwrite = Gtk.ResponseType.YES
+            if os.path.isfile(file):
+                overwrite = self.ask_overwrite(os.path.basename(file))
+            if overwrite == Gtk.ResponseType.YES:
+                if mimetype == "text/plain":
+                    try:
+                        with open(file, "w") as f:
+                            f.write(content)
+                    except Exception as e:
+                        self.show_error(str(e))
+                else:
+                    try:
+                        content.savev(file, "png", ["quality"], ["100"])
+                    except Exception as e:
+                        self.show_error(str(e))
+
+        return True
+
+    def compose_filename(self, mimetype, is_file, filename):
         """Compose the filename"""
-        if self.clicked_file:
-            return self.file
-            
-        # Incremental filename
+        # File
+        if is_file:
+            return filename
+        
+        # Directory
         i = 1
         i18n_filename = _("Clipboard")
-        while os.path.exists((self.dir + "/" + i18n_filename + "-%s.txt") % i) or os.path.exists((self.dir + "/" + i18n_filename + "-%s.png") % i):
+        while os.path.exists((filename + "/" + i18n_filename + "-%s.txt") % i) or os.path.exists((filename + "/" + i18n_filename + "-%s.png") % i):
             i += 1
 
-        return (self.dir + "/" + i18n_filename + "-%s." + extension) % i
+        if mimetype == "text/plain":
+            return (filename + "/" + i18n_filename + "-%s.txt") % i
+        else:
+            return (filename + "/" + i18n_filename + "-%s.png") % i
 
-    def _popup(self, msg):
+    def show_error(self, msg):
         dialog = Gtk.MessageDialog(
             message_type=Gtk.MessageType.ERROR,
             buttons=Gtk.ButtonsType.OK,
@@ -154,7 +134,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         response = dialog.run()
         dialog.destroy()
 
-    def _ask_overwrite(self, file_name):
+    def ask_overwrite(self, file_name):
         dialog = Gtk.MessageDialog(
             message_type=Gtk.MessageType.WARNING,
             buttons=Gtk.ButtonsType.YES_NO,

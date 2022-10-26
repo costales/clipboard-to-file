@@ -1,6 +1,6 @@
 clipboard-to-file (0.0.7) jammy; urgency=low
 
-  * Allow overwrite file with clipboard content
+  * Allow overwrite for any file browser
 
- -- costales <costales.marcos@gmail.com>  Thu, 25 Oct 2022 18:56:31 +0000
+ -- costales <costales.marcos@gmail.com>  Thu, 26 Oct 2022 19:56:31 +0000
 

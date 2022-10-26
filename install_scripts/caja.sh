@@ -10,7 +10,6 @@ sed -i 's/"clipboard-to-file"/"clipboard-to-file-caja"/' ../setup.py
 mv ../nautilus-extension/ ../caja-extension
 sed -i 's/nautilus/caja/g' ../caja-extension/clipboard-to-file.py
 sed -i 's/Nautilus/Caja/g' ../caja-extension/clipboard-to-file.py
-sed -i '/print(/d' ../caja-extension/clipboard-to-file.py
 
 # po
 sed -i 's/clipboard2file/clipboard-to-file-caja/' ../caja-extension/clipboard-to-file.py

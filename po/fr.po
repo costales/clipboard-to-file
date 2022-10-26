@@ -7,40 +7,43 @@ msgid ""
 msgstr ""
 "Project-Id-Version: clipboard-to-file\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2022-10-24 20:02+0200\n"
+"POT-Creation-Date: 2022-10-26 20:20+0200\n"
 "PO-Revision-Date: 2022-10-24 18:33+0000\n"
 "Last-Translator: gigajo2452@24rumen.com <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2022-10-25 17:16+0000\n"
+"X-Launchpad-Export-Date: 2022-10-26 18:40+0000\n"
 "X-Generator: Launchpad (build 083267bcef06a439af1c3ee2507b2333659521d4)\n"
 
-#: nautilus-extension/clipboard-to-file.py:52
+#: nautilus-extension/clipboard-to-file.py:51
 #: nautilus-extension/clipboard-to-file.py:59
 msgid "Clipboard to File"
 msgstr ""
 
-#: nautilus-extension/clipboard-to-file.py:76
+#: nautilus-extension/clipboard-to-file.py:87
+msgid "The clipboard does not have content"
+msgstr "Le presse-papier n'a pas de contenu"
+
+#: nautilus-extension/clipboard-to-file.py:94
+#, python-format
+msgid "%(filename)s isn't a %(mimetype)s file"
+msgstr ""
+
+#: nautilus-extension/clipboard-to-file.py:122
 msgid "Clipboard"
 msgstr "Presse-papier"
 
-#: nautilus-extension/clipboard-to-file.py:95
+#: nautilus-extension/clipboard-to-file.py:144
 #, python-format
 msgid "File %s exists. Overwrite?"
 msgstr "Le fichier %s existe déjà. Voulez-vous l'écraser?"
 
-#: nautilus-extension/clipboard-to-file.py:117
 #, python-format
-msgid "%s isn't a text file"
-msgstr "%s n'est pas un fichier text"
+#~ msgid "%s isn't a text file"
+#~ msgstr "%s n'est pas un fichier text"
 
-#: nautilus-extension/clipboard-to-file.py:137
 #, python-format
-msgid "%s isn't a PNG file"
-msgstr "%s n'est pas un fichier PNG"
-
-#: nautilus-extension/clipboard-to-file.py:150
-msgid "The clipboard does not have content"
-msgstr "Le presse-papier n'a pas de contenu"
+#~ msgid "%s isn't a PNG file"
+#~ msgstr "%s n'est pas un fichier PNG"

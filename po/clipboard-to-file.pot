@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-24 20:02+0200\n"
+"POT-Creation-Date: 2022-10-26 20:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,30 +17,25 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: nautilus-extension/clipboard-to-file.py:52
+#: nautilus-extension/clipboard-to-file.py:51
 #: nautilus-extension/clipboard-to-file.py:59
 msgid "Clipboard to File"
 msgstr ""
 
-#: nautilus-extension/clipboard-to-file.py:76
+#: nautilus-extension/clipboard-to-file.py:87
+msgid "The clipboard does not have content"
+msgstr ""
+
+#: nautilus-extension/clipboard-to-file.py:94
+#, python-format
+msgid "%(filename)s isn't a %(mimetype)s file"
+msgstr ""
+
+#: nautilus-extension/clipboard-to-file.py:122
 msgid "Clipboard"
 msgstr ""
 
-#: nautilus-extension/clipboard-to-file.py:95
+#: nautilus-extension/clipboard-to-file.py:144
 #, python-format
 msgid "File %s exists. Overwrite?"
-msgstr ""
-
-#: nautilus-extension/clipboard-to-file.py:117
-#, python-format
-msgid "%s isn't a text file"
-msgstr ""
-
-#: nautilus-extension/clipboard-to-file.py:137
-#, python-format
-msgid "%s isn't a PNG file"
-msgstr ""
-
-#: nautilus-extension/clipboard-to-file.py:150
-msgid "The clipboard does not have content"
 msgstr ""
