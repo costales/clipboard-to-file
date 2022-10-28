@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: clipboard-to-file\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2022-10-26 20:20+0200\n"
+"POT-Creation-Date: 2022-10-28 21:14+0200\n"
 "PO-Revision-Date: 2022-10-25 06:27+0000\n"
 "Last-Translator: Quentin PAGÈS <Unknown>\n"
 "Language-Team: Occitan (post 1500) <oc@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2022-10-26 18:40+0000\n"
-"X-Generator: Launchpad (build 083267bcef06a439af1c3ee2507b2333659521d4)\n"
+"X-Launchpad-Export-Date: 2022-10-28 19:44+0000\n"
+"X-Generator: Launchpad (build 9d579084c41c133b44690cd0fe319367b6cb1140)\n"
 "Language: to\n"
 
 #: nautilus-extension/clipboard-to-file.py:51
@@ -23,28 +23,36 @@ msgstr ""
 msgid "Clipboard to File"
 msgstr "Convertir lo quichapapièrs en fichièr"
 
-#: nautilus-extension/clipboard-to-file.py:87
+#: nautilus-extension/clipboard-to-file.py:85
 msgid "The clipboard does not have content"
 msgstr "Lo contengut del quichapapièrs es void"
 
-#: nautilus-extension/clipboard-to-file.py:94
+#: nautilus-extension/clipboard-to-file.py:91
 #, python-format
 msgid "%(filename)s isn't a %(mimetype)s file"
 msgstr ""
 
-#: nautilus-extension/clipboard-to-file.py:122
+#: nautilus-extension/clipboard-to-file.py:127
 msgid "Clipboard"
 msgstr "Quichapapièrs"
 
-#: nautilus-extension/clipboard-to-file.py:144
+#: nautilus-extension/clipboard-to-file.py:148
 #, python-format
-msgid "File %s exists. Overwrite?"
-msgstr "Lo fichièr %s existís. Lo remplaçar ?"
+msgid "File %s exists."
+msgstr ""
+
+#: nautilus-extension/clipboard-to-file.py:151
+msgid "Append"
+msgstr ""
+
+#: nautilus-extension/clipboard-to-file.py:152
+msgid "Overwrite"
+msgstr ""
+
+#: nautilus-extension/clipboard-to-file.py:153
+msgid "Cancel"
+msgstr ""
 
 #, python-format
-#~ msgid "%s isn't a text file"
-#~ msgstr "%s es pas un fichièr tèxte"
-
-#, python-format
-#~ msgid "%s isn't a PNG file"
-#~ msgstr "%s es pas un fichièr PNG"
+#~ msgid "File %s exists. Overwrite?"
+#~ msgstr "Lo fichièr %s existís. Lo remplaçar ?"
