@@ -5,12 +5,12 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # Clipboard to File is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with Clipboard to File; if not, see http://www.gnu.org/licenses
 # for more information.
@@ -29,8 +29,10 @@ except ImportError:
 gettext.textdomain("clipboard2file")
 _ = gettext.gettext
 
+
 class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
     """File Browser Menu"""
+
     def __init__(self):
         GObject.Object.__init__(self)
         self.clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
@@ -40,7 +42,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         # Checks
         if len(items) != 1:
             return
-        
+
         if items[0].is_directory():
             return
 
@@ -49,17 +51,21 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
             return
 
         # Menu
-        menu_item_file = Nautilus.MenuItem(name="click_file", label=_("Clipboard to File"))
+        menu_item_file = Nautilus.MenuItem(
+            name="click_file", label=_("Clipboard to File")
+        )
         menu_item_file.connect("activate", self.menu_file, file_name)
-        return menu_item_file,
+        return (menu_item_file,)
 
     def get_background_items(self, window, directory):
         """Click on directory"""
         dir = directory.get_uri()[7:]
-        
-        menu_item_dir = Nautilus.MenuItem(name="click_dir", label=_("Clipboard to File"))
+
+        menu_item_dir = Nautilus.MenuItem(
+            name="click_dir", label=_("Clipboard to File")
+        )
         menu_item_dir.connect("activate", self.menu_dir, dir)
-        return menu_item_dir,
+        return (menu_item_dir,)
 
     def menu_file(self, menu, filename):
         self.menu_clipboard(True, filename)
@@ -83,12 +89,15 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         # Nothing
         if not clipboard_has_content:
             self.show_error(_("The clipboard does not have content"))
-            
+
     def save(self, mimetype, is_file, filename, content):
         file = self.compose_filename(mimetype, is_file, filename)
 
         if mimetypes.guess_type(file)[0] != mimetype:
-            self.show_error(_("%(filename)s isn't a %(mimetype)s file") % ({'filename': os.path.basename(file), 'mimetype': mimetype}))
+            self.show_error(
+                _("%(filename)s isn't a %(mimetype)s file")
+                % ({"filename": os.path.basename(file), "mimetype": mimetype})
+            )
         else:
             overwrite = Gtk.ResponseType.ACCEPT
             if os.path.isfile(file):
@@ -121,11 +130,13 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         # File
         if is_file:
             return filename
-        
+
         # Directory
         i = 1
         i18n_filename = _("Clipboard")
-        while os.path.exists((filename + "/" + i18n_filename + "-%s.txt") % i) or os.path.exists((filename + "/" + i18n_filename + "-%s.png") % i):
+        while os.path.exists(
+            (filename + "/" + i18n_filename + "-%s.txt") % i
+        ) or os.path.exists((filename + "/" + i18n_filename + "-%s.png") % i):
             i += 1
 
         if mimetype == "text/plain":
@@ -145,7 +156,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
     def ask_overwrite(self, mimetype, file_name):
         dialog = Gtk.MessageDialog(
             message_type=Gtk.MessageType.WARNING,
-            text=_("File %s exists.") % (file_name)
+            text=_("File %s exists.") % (file_name),
         )
         if mimetype == "text/plain":
             dialog.add_buttons(_("Append"), Gtk.ResponseType.APPLY)

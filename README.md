@@ -31,7 +31,7 @@ Go to your file browser and do a right click:
 ![image](https://user-images.githubusercontent.com/5886786/197329936-f365c30b-e6c3-42a8-9106-bc0f94aacb09.png)
 
 
-## REQUERIMENTS
+## REQUIREMENTS
 
 Ubuntu 20.04 or 22.04.
 
