@@ -36,6 +36,10 @@ _ = gettext.gettext
 
 class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
     """File Browser Menu"""
+    RESPONSE_CANCEL = 0
+    RESPONSE_APPEND = 1
+    RESPONSE_OVERWRITE = 2
+    RESPONSE_OK = 3
 
     def __init__(self):
         GObject.Object.__init__(self)
@@ -90,17 +94,17 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         return (menu_item_dir,)
 
     def menu_file(self, menu, filename):
-        self.menu_clipboard(True, filename)
+        GLib.idle_add(self.menu_clipboard, True, filename)
 
     def menu_dir(self, menu, dir):
-        self.menu_clipboard(False, dir)
+        GLib.idle_add(self.menu_clipboard, False, dir)
 
     def menu_clipboard(self, is_file, filename):
         """Clicked menu"""
         clipboard_has_content = False
         if self.clipboard is None:
             self.show_error(_("Cannot access the clipboard"))
-            return
+            return False
 
         # Text
         text = self.read_clipboard_text()
@@ -114,6 +118,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         # Nothing
         if not clipboard_has_content:
             self.show_error(_("The clipboard does not have content"))
+        return False
 
     def save(self, mimetype, is_file, filename, content):
         file = self.compose_filename(mimetype, is_file, filename)
@@ -124,25 +129,25 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
                 % ({"filename": os.path.basename(file), "mimetype": mimetype})
             )
         else:
-            overwrite = Gtk.ResponseType.ACCEPT
+            overwrite = self.RESPONSE_OVERWRITE
             if os.path.isfile(file):
                 overwrite = self.ask_overwrite(mimetype, os.path.basename(file))
             # Text
             if mimetype == "text/plain":
-                if overwrite == Gtk.ResponseType.ACCEPT:
+                if overwrite == self.RESPONSE_OVERWRITE:
                     try:
                         with open(file, "w") as f:
                             f.write(content)
                     except Exception as e:
                         self.show_error(str(e))
-                if overwrite == Gtk.ResponseType.APPLY:
+                if overwrite == self.RESPONSE_APPEND:
                     try:
                         with open(file, "a") as f:
                             f.write("\n" + content)
                     except Exception as e:
                         self.show_error(str(e))
             # Image
-            if mimetype == "image/png" and overwrite == Gtk.ResponseType.ACCEPT:
+            if mimetype == "image/png" and overwrite == self.RESPONSE_OVERWRITE:
                 try:
                     content.save_to_png(file)
                 except Exception as e:
@@ -170,42 +175,24 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
             return (filename + "/" + i18n_filename + "-%s.png") % i
 
     def show_error(self, msg):
-        dialog = Gtk.MessageDialog(
-            message_type=Gtk.MessageType.ERROR,
-            text=msg,
-        )
-        dialog.add_button(_("OK"), Gtk.ResponseType.ACCEPT)
-        self.run_dialog(dialog)
+        self.run_alert_dialog(msg, [_("OK")])
 
     def ask_overwrite(self, mimetype, file_name):
-        dialog = Gtk.MessageDialog(
-            message_type=Gtk.MessageType.WARNING,
-            text=_("File %s exists.") % (file_name),
-        )
+        message = _("File %s exists.") % (file_name)
         if mimetype == "text/plain":
-            dialog.add_buttons(_("Append"), Gtk.ResponseType.APPLY)
-        dialog.add_buttons(_("Overwrite"), Gtk.ResponseType.ACCEPT)
-        dialog.add_buttons(_("Cancel"), Gtk.ResponseType.CANCEL)
-        return self.run_dialog(dialog)
+            choice = self.run_alert_dialog(
+                message, [_("Append"), _("Overwrite"), _("Cancel")]
+            )
+            if choice == 0:
+                return self.RESPONSE_APPEND
+            if choice == 1:
+                return self.RESPONSE_OVERWRITE
+            return self.RESPONSE_CANCEL
 
-    def run_dialog(self, dialog):
-        """Run a Gtk4 dialog and block until a response is emitted."""
-        response = {"id": Gtk.ResponseType.CANCEL}
-        loop = GLib.MainLoop()
-
-        def on_response(_dialog, response_id):
-            response["id"] = response_id
-            loop.quit()
-
-        parent = self.get_parent_window()
-        if parent is not None:
-            dialog.set_transient_for(parent)
-        dialog.set_modal(True)
-        dialog.connect("response", on_response)
-        dialog.present()
-        loop.run()
-        dialog.close()
-        return response["id"]
+        choice = self.run_alert_dialog(message, [_("Overwrite"), _("Cancel")])
+        if choice == 0:
+            return self.RESPONSE_OVERWRITE
+        return self.RESPONSE_CANCEL
 
     def read_clipboard_text(self):
         """Read text from clipboard using Gtk4 async API."""
@@ -260,3 +247,26 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         except Exception:
             return None
         return None
+
+    def run_alert_dialog(self, message, buttons):
+        """Run a Gtk.AlertDialog and return selected button index."""
+        response = {"id": len(buttons) - 1}
+        loop = GLib.MainLoop()
+        dialog = Gtk.AlertDialog()
+        dialog.set_message(message)
+        dialog.set_buttons(buttons)
+        dialog.set_cancel_button(len(buttons) - 1)
+        if len(buttons) > 1:
+            dialog.set_default_button(0)
+
+        def on_choose_done(_dialog, result):
+            try:
+                response["id"] = int(_dialog.choose_finish(result))
+            except Exception:
+                response["id"] = len(buttons) - 1
+            loop.quit()
+
+        parent = self.get_parent_window()
+        dialog.choose(parent, None, on_choose_done)
+        loop.run()
+        return response["id"]
