@@ -1,4 +1,4 @@
-# Clipboard to File 0.0.9
+# Clipboard to File 0.1.0
 # Copyright (C) 2022 Marcos Alvarez Costales https://costales.github.io/about/
 #
 # Clipboard to File is free software; you can redistribute it and/or modify
@@ -17,7 +17,11 @@
 
 import os, gettext, mimetypes
 
-from gi.repository import Nautilus, Gtk, GObject, Gdk
+import gi
+
+gi.require_version("Gtk", "4.0")
+gi.require_version("Gdk", "4.0")
+from gi.repository import Nautilus, Gtk, GObject, Gdk, GLib
 
 # Python 2 or 3
 try:
@@ -35,10 +39,18 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
 
     def __init__(self):
         GObject.Object.__init__(self)
-        self.clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        display = Gdk.Display.get_default()
+        self.clipboard = display.get_clipboard() if display is not None else None
 
-    def get_file_items(self, window, items):
+    def get_file_items(self, *args):
         """Click on a file"""
+        if len(args) == 2:
+            _window, items = args
+        elif len(args) == 1:
+            (items,) = args
+        else:
+            return
+
         # Checks
         if len(items) != 1:
             return
@@ -57,8 +69,15 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         menu_item_file.connect("activate", self.menu_file, file_name)
         return (menu_item_file,)
 
-    def get_background_items(self, window, directory):
+    def get_background_items(self, *args):
         """Click on directory"""
+        if len(args) == 2:
+            _window, directory = args
+        elif len(args) == 1:
+            (directory,) = args
+        else:
+            return
+
         dir = directory.get_uri()[7:]
 
         menu_item_dir = Nautilus.MenuItem(
@@ -76,14 +95,17 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
     def menu_clipboard(self, is_file, filename):
         """Clicked menu"""
         clipboard_has_content = False
+        if self.clipboard is None:
+            self.show_error(_("Cannot access the clipboard"))
+            return
 
         # Text
-        text = self.clipboard.wait_for_text()
+        text = self.read_clipboard_text()
         if text is not None:
             clipboard_has_content = self.save("text/plain", is_file, filename, text)
         # Image
         else:
-            image = self.clipboard.wait_for_image()
+            image = self.read_clipboard_texture()
             if image is not None:
                 clipboard_has_content = self.save("image/png", is_file, filename, image)
         # Nothing
@@ -119,7 +141,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
             # Image
             if mimetype == "image/png" and overwrite == Gtk.ResponseType.ACCEPT:
                 try:
-                    content.savev(file, "png", ["quality"], ["100"])
+                    content.save_to_png(file)
                 except Exception as e:
                     self.show_error(str(e))
 
@@ -147,11 +169,10 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
     def show_error(self, msg):
         dialog = Gtk.MessageDialog(
             message_type=Gtk.MessageType.ERROR,
-            buttons=Gtk.ButtonsType.OK,
             text=msg,
         )
-        response = dialog.run()
-        dialog.destroy()
+        dialog.add_button(_("OK"), Gtk.ResponseType.ACCEPT)
+        self.run_dialog(dialog)
 
     def ask_overwrite(self, mimetype, file_name):
         dialog = Gtk.MessageDialog(
@@ -162,6 +183,51 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
             dialog.add_buttons(_("Append"), Gtk.ResponseType.APPLY)
         dialog.add_buttons(_("Overwrite"), Gtk.ResponseType.ACCEPT)
         dialog.add_buttons(_("Cancel"), Gtk.ResponseType.CANCEL)
-        response = dialog.run()
-        dialog.destroy()
-        return response
+        return self.run_dialog(dialog)
+
+    def run_dialog(self, dialog):
+        """Run a Gtk4 dialog and block until a response is emitted."""
+        response = {"id": Gtk.ResponseType.CANCEL}
+        loop = GLib.MainLoop()
+
+        def on_response(_dialog, response_id):
+            response["id"] = response_id
+            loop.quit()
+
+        dialog.connect("response", on_response)
+        dialog.present()
+        loop.run()
+        dialog.close()
+        return response["id"]
+
+    def read_clipboard_text(self):
+        """Read text from clipboard using Gtk4 async API."""
+        text = {"value": None}
+        loop = GLib.MainLoop()
+
+        def on_text_ready(clipboard, result):
+            try:
+                text["value"] = clipboard.read_text_finish(result)
+            except GLib.Error:
+                text["value"] = None
+            loop.quit()
+
+        self.clipboard.read_text_async(None, on_text_ready)
+        loop.run()
+        return text["value"]
+
+    def read_clipboard_texture(self):
+        """Read image texture from clipboard using Gtk4 async API."""
+        texture = {"value": None}
+        loop = GLib.MainLoop()
+
+        def on_texture_ready(clipboard, result):
+            try:
+                texture["value"] = clipboard.read_texture_finish(result)
+            except GLib.Error:
+                texture["value"] = None
+            loop.quit()
+
+        self.clipboard.read_texture_async(None, on_texture_ready)
+        loop.run()
+        return texture["value"]
