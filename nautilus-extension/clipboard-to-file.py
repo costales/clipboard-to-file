@@ -64,7 +64,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         if items[0].is_directory():
             return
 
-        file_name = unquote(items[0].get_uri()[7:])
+        file_name = self.uri_to_path(items[0].get_uri())
         if file_name[-4:].lower() != ".txt" and file_name[-4:].lower() != ".png":
             return
 
@@ -85,7 +85,7 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         else:
             return
 
-        dir = directory.get_uri()[7:]
+        dir = self.uri_to_path(directory.get_uri())
 
         menu_item_dir = Nautilus.MenuItem(
             name="click_dir", label=_("Clipboard to File")
@@ -270,3 +270,15 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         dialog.choose(parent, None, on_choose_done)
         loop.run()
         return response["id"]
+
+    def uri_to_path(self, uri):
+        """Convert file:// URI to local path safely."""
+        try:
+            path, _hostname = GLib.filename_from_uri(uri)
+            if path:
+                return path
+        except Exception:
+            pass
+        if uri.startswith("file://"):
+            return unquote(uri[7:])
+        return unquote(uri)
