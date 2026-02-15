@@ -21,7 +21,7 @@ import gi
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Gdk", "4.0")
-from gi.repository import Nautilus, Gtk, GObject, Gdk, GLib
+from gi.repository import Nautilus, Gtk, GObject, Gdk, GLib, Gio
 
 # Python 2 or 3
 try:
@@ -41,11 +41,13 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         GObject.Object.__init__(self)
         display = Gdk.Display.get_default()
         self.clipboard = display.get_clipboard() if display is not None else None
+        self.parent_window = None
 
     def get_file_items(self, *args):
         """Click on a file"""
         if len(args) == 2:
-            _window, items = args
+            window, items = args
+            self.parent_window = window
         elif len(args) == 1:
             (items,) = args
         else:
@@ -72,7 +74,8 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
     def get_background_items(self, *args):
         """Click on directory"""
         if len(args) == 2:
-            _window, directory = args
+            window, directory = args
+            self.parent_window = window
         elif len(args) == 1:
             (directory,) = args
         else:
@@ -194,6 +197,10 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
             response["id"] = response_id
             loop.quit()
 
+        parent = self.get_parent_window()
+        if parent is not None:
+            dialog.set_transient_for(parent)
+        dialog.set_modal(True)
         dialog.connect("response", on_response)
         dialog.present()
         loop.run()
@@ -231,3 +238,25 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
         self.clipboard.read_texture_async(None, on_texture_ready)
         loop.run()
         return texture["value"]
+
+    def get_parent_window(self):
+        """Get a Nautilus window to use as transient parent for dialogs."""
+        if isinstance(self.parent_window, Gtk.Window):
+            return self.parent_window
+        try:
+            app = Gio.Application.get_default()
+            if isinstance(app, Gtk.Application):
+                window = app.get_active_window()
+                if isinstance(window, Gtk.Window):
+                    return window
+        except Exception:
+            pass
+        try:
+            toplevels = Gtk.Window.get_toplevels()
+            for i in range(toplevels.get_n_items()):
+                window = toplevels.get_item(i)
+                if isinstance(window, Gtk.Window) and window.is_active():
+                    return window
+        except Exception:
+            return None
+        return None
