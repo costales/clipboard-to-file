@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Clipboard to File 0.0.9 - https://github.com/costales/clipboard-to-file
+# Clipboard to File 0.1.0 - https://github.com/costales/clipboard-to-file
 # Copyright (C) 2022 Marcos Alvarez Costales - https://costales.github.io/
 #
 # Clipboard to File is free software; you can redistribute it and/or modify
@@ -31,7 +31,7 @@ data = [
 # Setup stage
 DistUtilsExtra.auto.setup(
     name="clipboard-to-file",
-    version="0.0.9",
+    version="0.1.0",
     description="Save your clipboard content to a file",
     author="Marcos Alvarez Costales",
     author_email="marcos.costales@gmail.com",

@@ -1,6 +1,5 @@
-clipboard-to-file (0.0.9) jammy; urgency=low
+clipboard-to-file (0.1.0) jammy; urgency=low
 
-  * Allow append for text files
+  * Migrated Ubuntu 24.10+ to Gdk 4.
 
- -- costales <costales.marcos@gmail.com>  Thu, 28 Oct 2022 19:56:31 +0000
-
+ -- costales <costales.marcos@gmail.com>  Thu, 15 Feb 2026 10:20:31 +0000
