@@ -75,4 +75,4 @@ http://www.gnu.org/licenses
 
 ## AUTHOR
 
-© 2022 Marcos Alvarez Costales
+© 2022-2026 Marcos Alvarez Costales

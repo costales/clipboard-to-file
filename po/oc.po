@@ -1,5 +1,5 @@
 # Occitan (post 1500) translation for clipboard-to-file
-# Copyright (c) 2022 Rosetta Contributors and Canonical Ltd 2022
+# Copyright (c) 2022-2026 Rosetta Contributors and Canonical Ltd 2022
 # This file is distributed under the same license as the clipboard-to-file package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 #

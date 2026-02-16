@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Clipboard to File 0.1.0 - https://github.com/costales/clipboard-to-file
-# Copyright (C) 2022 Marcos Alvarez Costales - https://costales.github.io/
+# Copyright (C) 2022-2026 Marcos Alvarez Costales - https://costales.github.io/
 #
 # Clipboard to File is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

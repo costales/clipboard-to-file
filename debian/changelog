@@ -1,4 +1,4 @@
-clipboard-to-file (0.1.0) jammy; urgency=low
+clipboard-to-file (0.1.0) noble; urgency=low
 
   * Migrated Ubuntu 24.10+ to Gdk 4.
 
