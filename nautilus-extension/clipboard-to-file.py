@@ -19,9 +19,18 @@ import os, gettext, mimetypes
 
 import gi
 
-gi.require_version("Gtk", "4.0")
-gi.require_version("Gdk", "4.0")
-from gi.repository import Nautilus, Gtk, GObject, Gdk, GLib, Gio
+GTK4_AVAILABLE = True
+try:
+    gi.require_version("Gtk", "4.0")
+    gi.require_version("Gdk", "4.0")
+    from gi.repository import Nautilus, Gtk, GObject, Gdk, GLib, Gio
+except ValueError:
+    # If Gtk3 is already loaded (e.g. Nemo), keep import-safe.
+    # Do not request Gdk 3.0: Gdk4 is kept for Gtk4 mode only.
+    GTK4_AVAILABLE = False
+    gi.require_version("Gtk", "3.0")
+    from gi.repository import Nautilus, Gtk, GObject, GLib, Gio
+    Gdk = None
 
 # Python 2 or 3
 try:
@@ -43,12 +52,18 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
 
     def __init__(self):
         GObject.Object.__init__(self)
-        display = Gdk.Display.get_default()
-        self.clipboard = display.get_clipboard() if display is not None else None
+        self.enabled = GTK4_AVAILABLE
+        if self.enabled:
+            display = Gdk.Display.get_default()
+            self.clipboard = display.get_clipboard() if display is not None else None
+        else:
+            self.clipboard = None
         self.parent_window = None
 
     def get_file_items(self, *args):
         """Click on a file"""
+        if not self.enabled:
+            return
         if len(args) == 2:
             window, items = args
             self.parent_window = window
@@ -77,6 +92,8 @@ class PasteIntoFile(GObject.GObject, Nautilus.MenuProvider):
 
     def get_background_items(self, *args):
         """Click on directory"""
+        if not self.enabled:
+            return
         if len(args) == 2:
             window, directory = args
             self.parent_window = window
